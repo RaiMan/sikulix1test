@@ -41,6 +41,8 @@ public class TestAll {
 
   @Before
   public void setUp() {
+    scr = new Screen(); //to remove attributes from last test
+    scr.hover(); //move mouse to center
     currentTest = "currentTest";
     result = "";
     if (App.openLink(baseURL)) {
@@ -78,6 +80,7 @@ public class TestAll {
     String image = "clickMe";
     try {
       Match found = scr.wait(image);
+      found.highlight(2);
       result = message("Image: %s as Match: %s", image, found);
       assert true;
     } catch (FindFailed findFailed) {
@@ -87,10 +90,11 @@ public class TestAll {
 
   @Test
   public void test_002_waitVanish() {
-    currentTest = "test_002_hoverOnImage";
+    currentTest = "test_002_waitVanish";
     String image = "clickMe";
     try {
       Match found = scr.wait(image);
+      found.highlight(2);
       Location foundCenter = found.getCenter();
       clickAfterSomeTime(foundCenter, 3);
       boolean vanished = scr.waitVanish(image, 5);
@@ -108,10 +112,11 @@ public class TestAll {
 
   @Test
   public void test_020_hoverOnImage() {
-    currentTest = "test_002_hoverOnImage";
+    currentTest = "test_020_hoverOnImage";
     String image = "clickMe";
     try {
       Match found = scr.wait(image);
+      found.highlight(2);
       Location foundCenter = found.getCenter();
       found.hover();
       Location mouseAt = Mouse.at();
