@@ -1,4 +1,4 @@
-package sikulix.com.sikulix1test;
+package com.sikulix.sikulix1test;
 
 public class Sikulix1Test {
   public static void main(String[] args) {
