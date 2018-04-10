@@ -23,6 +23,13 @@ public class TestAll {
   static final String baseURL = "http://test.sikulix.com/";
   Region browserWindow = null;
 
+  private void clickAfterSomeTime(Location loc, int seconds) {
+    ((Runnable) () -> {
+      scr.wait(seconds * 1.0);
+      loc.click();
+    }).run();
+  }
+
   @BeforeClass
   public static void setUpClass() {
     ImagePath.add("com.sikulix.sikulix1test.Sikulix1Test/images.sikuli");
@@ -68,7 +75,7 @@ public class TestAll {
   @Test
   public void test_001_waitForImage() {
     currentTest = "test_001_waitForImage";
-    String image = "godsEye";
+    String image = "clickMe";
     try {
       Match found = scr.wait(image);
       result = message("Image: %s as Match: %s", image, found);
@@ -79,7 +86,28 @@ public class TestAll {
   }
 
   @Test
-  public void test_002_hoverOnImage() {
+  public void test_002_waitVanish() {
+    currentTest = "test_002_hoverOnImage";
+    String image = "clickMe";
+    try {
+      Match found = scr.wait(image);
+      Location foundCenter = found.getCenter();
+      clickAfterSomeTime(foundCenter, 3);
+      boolean vanished = scr.waitVanish(image, 5);
+      if (vanished) {
+        result = message("%s vanished from: %s", image, found);
+        assert true;
+      } else {
+        assert false :
+                message("%s did not vanish from: %s", image, found);
+      }
+    } catch (FindFailed findFailed) {
+      assert false : message("Image not found: %s", image);
+    }
+  }
+
+  @Test
+  public void test_020_hoverOnImage() {
     currentTest = "test_002_hoverOnImage";
     String image = "clickMe";
     try {
